@@ -64,6 +64,37 @@ st.markdown(
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+/* =====================================================================
+   PAKSA MODE TERANG
+   Tanpa .streamlit/config.toml, Streamlit Cloud bisa memakai tema gelap
+   bawaan, sehingga teks menjadi putih dan tidak terbaca di latar terang.
+   Blok ini mengunci warna teks dan latar agar tampilan konsisten terang,
+   apa pun tema browser atau akun pengguna.
+   ===================================================================== */
+html, .stApp, [data-testid="stAppViewContainer"], [data-testid="stSidebar"] { color-scheme: light !important; }
+.stApp, .stApp p, .stApp label, .stApp span, .stApp li, .stApp td, .stApp th,
+.stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
+[data-testid="stWidgetLabel"] p, [data-testid="stWidgetLabel"] label,
+[data-testid="stMarkdownContainer"] p, [data-testid="stCaptionContainer"],
+.stRadio label p, [data-baseweb="radio"] div, [data-testid="stSidebar"] * {
+    color: #0F2A4A;
+}
+/* kembalikan warna putih untuk elemen yang memang berlatar gelap/berwarna */
+.hero, .hero *, .chip, .ccard .tag, .step .n,
+[aria-selected="true"] p, [data-testid="stSidebar"] .sbx-good *,
+div[style*="background:#1E5AA8"] * { color: inherit; }
+/* tombol radio & slider: ikuti warna tema biru, bukan merah bawaan */
+input[type="radio"], input[type="checkbox"], input[type="range"] { accent-color: #1E5AA8 !important; }
+/* lingkaran radio terpilih (struktur: label > div > div pertama) */
+[data-testid="stRadioOption"][data-selected="true"] > div > div:first-child {
+    background-color: #1E5AA8 !important; border-color: #1E5AA8 !important;
+}
+[data-testid="stRadioOption"] > div > div:first-child { border-color: #9EC5F4 !important; background-color: #FFFFFF !important; }
+[data-testid="stRadioOption"][data-selected="true"] > div > div:first-child { background-color: #1E5AA8 !important; }
+[data-baseweb="radio"] [aria-checked="true"] > div:first-child { background-color: #1E5AA8 !important; border-color: #1E5AA8 !important; }
+[data-testid="stSlider"] [role="slider"] { background-color: #1E5AA8 !important; }
+[data-testid="stSlider"] [data-baseweb="slider"] div[role="slider"] ~ div { background: #1E5AA8 !important; }
+
 html, body, [class*="css"], .stMarkdown, .stText, button, input, textarea, select {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
