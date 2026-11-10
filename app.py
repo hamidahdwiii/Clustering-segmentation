@@ -262,28 +262,37 @@ def pct(x, d=1):
     return f"{fmt(x, d)}%"
 
 
+AXIS_TEXT = "#33445C"   # warna teks sumbu & legenda (gelap, kontras di latar putih)
+
+
 def style_fig(fig, height=380, title=None, legend=True):
     fig.update_layout(
         template="plotly_white",
         height=height,
         title=dict(text=title, x=0.01, font=dict(size=15, color=NAVY)) if title else None,
-        font=dict(family="Plus Jakarta Sans, sans-serif", size=12, color="#33445C"),
+        font=dict(family="Plus Jakarta Sans, sans-serif", size=12, color=AXIS_TEXT),
         margin=dict(l=10, r=10, t=50 if title else 20, b=10),
         paper_bgcolor="white",
         plot_bgcolor="white",
         hoverlabel=dict(bgcolor="white", bordercolor="#C9DEFA", font=dict(color=NAVY)),
         showlegend=legend,
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0, bgcolor="rgba(0,0,0,0)"),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0, bgcolor="rgba(0,0,0,0)",
+                    font=dict(color=AXIS_TEXT, size=12)),
     )
     if title and legend:
         fig.update_layout(margin=dict(t=80), legend=dict(y=1.0, yanchor="bottom"), title=dict(y=0.97, yanchor="top"))
-    fig.update_xaxes(showgrid=False, linecolor="#C9D6E8", ticks="outside", tickcolor="#C9D6E8")
-    fig.update_yaxes(gridcolor=GRID, zeroline=False, linecolor="#C9D6E8")
+    # Warna teks sumbu dipatok eksplisit agar tidak ikut memudar saat tema gelap aktif.
+    fig.update_xaxes(showgrid=False, linecolor="#C9D6E8", ticks="outside", tickcolor="#C9D6E8",
+                     tickfont=dict(color=AXIS_TEXT, size=11), title_font=dict(color=NAVY, size=12))
+    fig.update_yaxes(gridcolor=GRID, zeroline=False, linecolor="#C9D6E8",
+                     tickfont=dict(color=AXIS_TEXT, size=11), title_font=dict(color=NAVY, size=12))
     return fig
 
 
 def show(fig):
-    st.plotly_chart(fig, width="stretch", config={"displayModeBar": False})
+    # theme=None: grafik memakai gaya sendiri (plotly_white + warna gelap eksplisit di atas),
+    # bukan tema Streamlit. Mencegah teks sumbu memudar saat tema gelap aktif.
+    st.plotly_chart(fig, width="stretch", theme=None, config={"displayModeBar": False})
 
 
 def hex_rgba(h, a):
